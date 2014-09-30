@@ -1,0 +1,103 @@
+﻿@model MvcApplication_test.Models.Machines
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Machine Details</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <script type="text/javascript" src="../../Scripts/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        
+        <style type="text/css">
+        .current-status
+        {
+            color:Gray;
+            background-color: #efefef;
+            cursor: default !important;
+        }
+        .error{
+            color:red;
+            background-color: red;
+            cursor: default !important;
+        }
+    </style>
+
+</head>
+<body>
+
+    
+<div class="container">
+    <div class="row">
+    <h2>Machine Details: @Model.name</h2>
+    </div>
+    <div class="row">
+      <div class="col-md-6 col-xs-12">
+      <table><tr>
+    <td>Machine ID: @Model.id</td></tr>
+   <tr> <td>Machine name: @Model.name</td></tr>
+   <tr> <td>Description: @Model.description</td></tr>
+    <tr><td>Status: @((Model.status == 1) ? "Enabled" : "Disabled")</td>
+</tr></table>
+
+<button id="status-enabled" class="@((Model.status == 1) ? "current-status" : "")">Enable</button>
+<button id="status-disabled" class="@((Model.status == 1) ? "" : "current-status")">Disable</button>
+
+<script type="text/javascript">
+    $('#status-enabled').bind('click', { status: 1 }, changeServerStatus);
+    $('#status-enabled').bind('click', { status: 0 }, changeServerStatus);
+
+    function changeServerStatus(status) {
+        $.ajax({
+            url: 'api/DataPoint/@Model.id',
+            type: 'PUT',
+            data: "id=@Model.id&status=" + status,
+            success: function (data) {
+                if (data === 0) {
+                    $('#status-enabled').removeClass('current-status');
+                    $('#status-disabled').addClass('current-status');
+                } else if (data === 1) {
+                    $('#status-disabled').removeClass('current-status');
+                    $('#status-enabled').addClass('current-status');
+                } else {
+                    //raise error
+                    $('#status-enabled').addClass('error');
+                    $('#status-enabled').addClass('error');
+                }
+            }
+        });
+
+    }
+
+</script>
+</div>
+      <div class="col-md-6 col-xs-12">
+      <ul id="data-point-container"></ul>
+      </div>  
+    
+    </div>
+</div>
+
+
+
+
+
+  
+<script type="text/javascript">
+    setInterval("retrieveDataPoint();", 3000);
+
+    function retrieveDataPoint() {
+
+        $.get('/api/DataPoint/@Model.id', function (data) {
+            $('#data-point-container').append('<li>Time: ' + data + '</li>');
+        });
+    }
+</script>
+
+
+
+
+</body></html>

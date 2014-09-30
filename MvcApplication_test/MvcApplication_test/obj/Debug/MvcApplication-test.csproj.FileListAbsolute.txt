@@ -1,0 +1,1 @@
+C:\MvcApplication-test\MvcApplication-test\obj\Debug\ResolveAssemblyReference.cache

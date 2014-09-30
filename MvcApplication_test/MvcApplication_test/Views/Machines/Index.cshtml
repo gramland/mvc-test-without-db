@@ -1,0 +1,24 @@
+﻿@model IEnumerable<MvcApplication_test.Models.Machines>
+
+@{
+    ViewBag.Title = "Machine List";
+}
+
+<h2>Index</h2>
+
+
+<table>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.name, "Details", new { id=item.id }) |
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.description)
+        </td>
+        
+        
+    </tr>
+}
+
+</table>
