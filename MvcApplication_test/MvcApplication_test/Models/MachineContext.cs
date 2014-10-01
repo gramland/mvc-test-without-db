@@ -12,7 +12,7 @@ namespace MvcApplication_test.Models
 
         //public DbSet<Machines> Machines {get; set;}
 
-    public List<Machines> listMachines = new List<Machines>
+    public static List<Machines> listMachines = new List<Machines>
     {
         new Machines { id = 1, name = "machine one", description = "This is the machine number 1", status=1 },
         new Machines { id = 2, name = "machine two", description = "This is the machine number 2", status=0 },

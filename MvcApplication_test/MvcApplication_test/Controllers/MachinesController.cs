@@ -16,17 +16,16 @@ namespace MvcApplication_test.Controllers
 
         public ActionResult Index()
         {
-            MachineContext machineContext = new MachineContext();
-            List<Machines> allmachines = machineContext.listMachines;
-
+            //MachineContext machineContext = new MachineContext();
+            List<Machines> allmachines = MachineContext.listMachines;
             return View(allmachines);
         }
 
 
         public ActionResult Details(int id)
         {
-            MachineContext machineContext = new MachineContext();
-            Machines machine = machineContext.listMachines.Single(mac => mac.id == id);
+            //MachineContext machineContext = new MachineContext();
+            Machines machine = MachineContext.listMachines.Single(mac => mac.id == id);
 
             
 

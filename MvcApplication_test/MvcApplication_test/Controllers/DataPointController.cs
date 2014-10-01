@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using MvcApplication_test.Models;
 
 namespace MvcApplication_test.Controllers
 {
@@ -21,6 +22,8 @@ namespace MvcApplication_test.Controllers
             Random rnd = new Random();
             return rnd.Next(1000);
         }
+
+
 
         // POST api/datapoint
         public void Post([FromBody]string value)

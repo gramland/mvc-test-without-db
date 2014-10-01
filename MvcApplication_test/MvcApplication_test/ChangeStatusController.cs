@@ -30,18 +30,19 @@ namespace MvcApplication_test
         // PUT api/<controller>/5
         public int Put(int id, [FromBody]int status)
         {
-            MachineContext machineContext = new MachineContext();
-            Machines machine = machineContext.Machines.Single(mac => mac.id == id);
+            //MachineContext machineContext = new MachineContext();
+            Machines machine = MachineContext.listMachines.Single(mac => mac.id == id);
 
             if (machine == null) {
                 return 2;
                 // more than one indicates an error
             }
 
+            bool myBool = !(Convert.ToBoolean(machine.status));
 
-            machine.status = status;
-            
-            return status;
+            machine.status = Convert.ToInt32(myBool);
+
+            return machine.status;
 
 
         }

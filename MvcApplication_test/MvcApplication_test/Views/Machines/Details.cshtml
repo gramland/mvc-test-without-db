@@ -17,12 +17,12 @@
         {
             color:Gray;
             background-color: #efefef;
-            cursor: default !important;
+            
         }
         .error{
             color:red;
             background-color: red;
-            cursor: default !important;
+            
         }
     </style>
 
@@ -40,7 +40,7 @@
     <td>Machine ID: @Model.id</td></tr>
    <tr> <td>Machine name: @Model.name</td></tr>
    <tr> <td>Description: @Model.description</td></tr>
-    <tr><td>Status: @((Model.status == 1) ? "Enabled" : "Disabled")</td>
+    <tr><td><span id="status-text">Status: @((Model.status == 1) ? "Enabled" : "Disabled")</span></td>
 </tr></table>
 
 <button id="status-enabled" class="@((Model.status == 1) ? "current-status" : "")">Enable</button>
@@ -48,20 +48,22 @@
 
 <script type="text/javascript">
     $('#status-enabled').bind('click', { status: 1 }, changeServerStatus);
-    $('#status-enabled').bind('click', { status: 0 }, changeServerStatus);
+    $('#status-disabled').bind('click', { status: 0 }, changeServerStatus);
 
     function changeServerStatus(status) {
         $.ajax({
-            url: 'api/DataPoint/@Model.id',
+            url: '/api/ChangeStatus/@Model.id',
             type: 'PUT',
             data: "id=@Model.id&status=" + status,
             success: function (data) {
-                if (data === 0) {
+                if (data == 0) {
                     $('#status-enabled').removeClass('current-status');
                     $('#status-disabled').addClass('current-status');
-                } else if (data === 1) {
+                    $('#status-text').text('Status: Disabled');
+                } else if (data == 1) {
                     $('#status-disabled').removeClass('current-status');
                     $('#status-enabled').addClass('current-status');
+                    $('#status-text').text('Status: Enabled');
                 } else {
                     //raise error
                     $('#status-enabled').addClass('error');
